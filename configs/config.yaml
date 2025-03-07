@@ -1,0 +1,106 @@
+# Webshell检测器配置文件
+
+# 扫描配置
+scan:
+  # 扫描目录配置
+  directories:
+    - /var/www/html
+    - /usr/share/nginx/html
+  exclude_dirs:
+    - /var/www/html/cache
+    - /var/www/html/uploads
+  
+  # 文件类型配置
+  file_types:
+    - .php
+    - .jsp
+    - .asp
+    - .aspx
+  
+  # 定时扫描配置
+  schedule:
+    enabled: true
+    interval: 24h
+    start_time: "03:00"
+    max_filesize: 10485760  # 10MB
+  
+  # 实时扫描配置
+  realtime:
+    enabled: true
+    max_concurrency: 5
+
+# 检测配置
+detection:
+  # 特征匹配配置
+  feature_match:
+    min_score: 0.0
+    max_score: 100.0
+  
+  # 行为分析配置
+  behavior_analysis:
+    enabled: true
+    timeout: 30
+    max_memory: 512
+  
+  # 机器学习配置
+  machine_learning:
+    enabled: true
+    threshold: 0.75
+    batch_size: 100
+
+  yara:
+    enabled: true
+    rules_dir: "data/rules"  # YARA规则目录
+    rule_types:              # 要检测的规则类型
+      - "webshells"
+      - "crypto"
+    max_file_size: 10485760  # 最大扫描文件大小(10MB)
+
+# 告警配置
+alert:
+  # 告警阈值
+  threshold:
+    high_risk: 80.0
+    medium_risk: 50.0
+    low_risk: 30.0
+  
+  # 邮件告警配置
+  email:
+    enabled: false
+    host: smtp.example.com
+    port: 587
+    username: alert@example.com
+    password: your_password
+    from: alert@example.com
+    to:
+      - admin@example.com
+  
+  # 短信告警配置
+  sms:
+    enabled: false
+    gateway: http://sms.example.com/api/send
+    api_key: your_api_key
+    template: "检测到Webshell文件：%s，风险等级：%s"
+    phones:
+      - "13800138000"
+
+# 存储配置
+storage:
+  # 数据库配置
+  database:
+    type: sqlite
+    path: data/webshell-detector.db
+    host: localhost
+    port: 5432
+    name: webshell_detector
+    username: webshell
+    password: your_password
+  
+  # 历史记录配置
+  history:
+    retention_days: 90
+    max_records: 1000000
+
+# 路径配置
+signature_path: "data/signatures/signature.db"
+model_path: "data/models/rf_model.bin"

@@ -90,8 +90,8 @@ signature_path: "data/signatures/signature.db"
 model_path: "data/models/rf_model.bin"
 ```
 
-## 6. 编译项目
-```bash
+编译项目
+```
 cd webshell-detector
 go build -o webshell-detector cmd/main.go
 ```
